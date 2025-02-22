@@ -238,8 +238,9 @@ from fastapi import FastAPI, File, UploadFile
 import shutil
 import os
 
-# Patch asyncio for Jupyter Notebook
-# nest_asyncio.apply()
+from fastapi import FastAPI, File, UploadFile
+import shutil
+import os
 
 app = FastAPI()
 
@@ -251,7 +252,7 @@ async def predict_video(file: UploadFile = File(...)):
     print(f"Received file: {file.filename}")  # Debugging line
 
     # Save file
-    file_path = f"{UPLOAD_FOLDER}/{file.filename}"
+    file_path = os.path.join(UPLOAD_FOLDER, file.filename)
     with open(file_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
 
@@ -263,5 +264,7 @@ async def predict_video(file: UploadFile = File(...)):
 
     return {"video": file.filename, "emotions": emotions}
 
-# Run Uvicorn in Jupyter
-# uvicorn.run(app, host="127.0.0.1", port=8000)
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
+
