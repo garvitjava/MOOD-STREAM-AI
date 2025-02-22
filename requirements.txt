@@ -3,7 +3,7 @@ uvicorn
 tensorflow
 opencv-python
 librosa
-moviepy
+moviepy==1.0.3
 speechrecognition
 scikit-learn
 nltk
