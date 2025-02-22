@@ -13,6 +13,8 @@ from tensorflow.keras.models import load_model, model_from_json
 from sklearn.preprocessing import StandardScaler
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 import nltk
+nltk.download('stopwords')
+
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 import pickle
