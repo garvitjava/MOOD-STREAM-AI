@@ -232,38 +232,42 @@ def transcribe_and_predict_video(video):
     
     return f"Text Emotion: {text_emotion}, Audio Emotion: {audio_emotion}, Image Emotion: {image_emotion}"
 
+
+
+
+gui = gr.Interface(
+    fn=transcribe_and_predict_video,
+    inputs=gr.File(label="Upload Video"),
+    outputs=gr.Textbox(label="Detected Emotion"),
+    title="AI Video Emotion Analyzer"
+)
+
+gui.launch()
+
+
+
+import uvicorn
 from fastapi import FastAPI, File, UploadFile
 import shutil
 import os
 
+
+
+# FastAPI Backend
 app = FastAPI()
 
-UPLOAD_FOLDER = "uploads"
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+@app.post("/predict_emotion/")
+async def predict_emotion_api(file: UploadFile = File(...)):
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".mp4") as temp_file:
+        temp_file.write(file.file.read())
+        video_path = temp_file.name
+    
+    emotions=transcribe_and_predict_video(video_path)
+    os.remove(video_path)
+    
+    return emotions
+uvicorn.run(app, host="0.0.0.0", port=8000)
 
 
-@app.post("/predict/video")
-async def predict_video(file: UploadFile = File(...)):
-    try:
-        print(f"Received file: {file.filename}")  # Debugging
-
-        # Secure file path
-        file_path = os.path.join(UPLOAD_FOLDER, file.filename)
-
-        # Save the uploaded file
-        with open(file_path, "wb") as buffer:
-            shutil.copyfileobj(file.file, buffer)
-
-        print(f"File saved at: {file_path}")  # Debugging
-
-        # Run model prediction
-        emotions = transcribe_and_predict_video(file_path)
-
-        return {"video": file.filename, "emotions": emotions}
-
-    except Exception as e:
-        return {"error": str(e)}
-
-# **Remove uvicorn.run()** - Render runs Gunicorn automatically
 
 
