@@ -251,7 +251,6 @@ from fastapi import FastAPI, File, UploadFile
 import shutil
 import os
 
-PORT = int(os.environ.get("PORT", 10000)) 
 
 # FastAPI Backend
 app = FastAPI()
