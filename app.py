@@ -21,6 +21,9 @@ import pickle
 import json
 from tensorflow.keras.preprocessing.image import img_to_array, load_img
 from collections import Counter
+
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1" 
 # Load the text model
 with open('model_architecture_for_text_emotion_updated_json.json', 'r') as json_file:
     model_json = json_file.read()
