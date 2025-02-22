@@ -270,7 +270,7 @@ async def predict_emotion_api(file: UploadFile = File(...)):
     
     return emotions
 # if __name__ == "__main__":
-uvicorn.run(app, host="0.0.0.0", port=PORT)
+# uvicorn.run(app, host="0.0.0.0", port=PORT)
 
 
 
