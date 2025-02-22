@@ -2,8 +2,10 @@ services:
   - type: web
     name: emotion-recognition-api
     env: python
+    runtime: python3  # Add this to specify Python version
     buildCommand: "pip install -r requirements.txt"
-    startCommand: "uvicorn main:app --host 0.0.0.0 --port 10000"
+    startCommand: "uvicorn app:app --host 0.0.0.0 --port $PORT"  # Use $PORT
     envVars:
       - key: PORT
-        value: 10000
+        value: $PORT  # Use $PORT instead of hardcoding 10000
+
