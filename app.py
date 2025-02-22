@@ -251,7 +251,7 @@ from fastapi import FastAPI, File, UploadFile
 import shutil
 import os
 
-PORT = int(os.environ.get("PORT", 8000)) 
+PORT = int(os.environ.get("PORT", 10000)) 
 
 # FastAPI Backend
 app = FastAPI()
@@ -269,8 +269,8 @@ async def predict_emotion_api(file: UploadFile = File(...)):
     os.remove(video_path)
     
     return emotions
-# if __name__ == "__main__":
-# uvicorn.run(app, host="0.0.0.0", port=PORT)
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=PORT)
 
 
 
